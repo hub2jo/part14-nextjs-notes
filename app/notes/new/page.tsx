@@ -1,14 +1,19 @@
-import { createNote } from "../../actions/notes"
+"use client"
+
+import { useActionState } from "react"
+import { createNote } from "@/app/actions/notes"
 
 const NewNote = () => {
+  const [state, formAction, pending] = useActionState(createNote, { error: "" })
+
   return (
     <div>
       <h2>Create a new note</h2>
-      <form action={createNote}>
+      <form action={formAction}>
         <div>
           <label>
             Content
-            <input type="text" name="content" required />
+            <input type="text" name="content" required minLength={10} />
           </label>
         </div>
         <div>
@@ -17,7 +22,8 @@ const NewNote = () => {
             Important
           </label>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit" disabled={pending}>Create</button>
+        {state.error && <p style={{ color: "red" }}>{state.error}</p>}
       </form>
     </div>
   )
