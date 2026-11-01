@@ -1,4 +1,6 @@
 import { registerUser } from "@/app/actions/users"
+import FormField from "@/app/components/FormField"
+import Button from "@/app/components/Button"
 
 const messages: Record<string, string> = {
   invalid: "All fields are required and the password must be at least 3 characters",
@@ -13,31 +15,18 @@ export default async function RegisterPage({
   const { error } = await searchParams
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div className="max-w-sm mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Register</h2>
       {error && messages[error] && (
-        <p style={{ color: "red" }}>{messages[error]}</p>
+        <p className="text-red-600 text-sm mb-4">{messages[error]}</p>
       )}
-      <form action={registerUser}>
-        <div>
-          <label>
-            Username
-            <input type="text" name="username" required />
-          </label>
-        </div>
-        <div>
-          <label>
-            Name
-            <input type="text" name="name" required />
-          </label>
-        </div>
-        <div>
-          <label>
-            Password
-            <input type="password" name="password" required minLength={3} />
-          </label>
-        </div>
-        <button type="submit">Register</button>
+      <form action={registerUser} className="space-y-4">
+        <FormField label="Username" type="text" name="username" required />
+        <FormField label="Name" type="text" name="name" required />
+        <FormField label="Password" type="password" name="password" required minLength={3} />
+        <Button type="submit" className="w-full">
+          Register
+        </Button>
       </form>
     </div>
   )
